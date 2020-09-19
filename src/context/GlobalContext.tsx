@@ -1,11 +1,14 @@
 import React, { FC, useCallback, useState } from 'react';
+import IEntityPageMapping from '../interfaces/core/IEntityPageMapping';
 import IResultPages from '../interfaces/core/IResultPages';
 import IFilm from '../interfaces/domain/IFilm';
 import IPeople from '../interfaces/domain/IPeople';
 import IPlanet from '../interfaces/domain/IPlanet';
 import ISpecies from '../interfaces/domain/ISpecies';
 import IStarship from '../interfaces/domain/IStarship';
+import IStarWarsEntity from '../interfaces/domain/IStarWarsEntity';
 import IVehicle from '../interfaces/domain/IVehicle';
+import { getIdFromUrl } from '../utils/urlHelpers';
 
 interface IContext {
   films: IResultPages<IFilm>|undefined;
@@ -44,9 +47,15 @@ function updateSet<T>(
   setter: React.Dispatch<React.SetStateAction<IResultPages<T>|undefined>>
 ) : void {
   setter((prev: IResultPages<T> | undefined) => {
+    const fetchedIds : IEntityPageMapping = prev?.fetchedIds || {};
+    const dataWithIds = data.map((entry) => {
+      const id = getIdFromUrl((entry as unknown as IStarWarsEntity).url);
+      fetchedIds[id] = page;
+      return ({ ...entry, id });
+    });
     const fetchedPages = prev ? [...prev.fetchedPages, page] : [page];
-    const pages = prev ? [...prev.pages, data] : [data];
-    return ({ fetchedPages, total, pages });
+    const pages = prev ? [...prev.pages, dataWithIds] : [dataWithIds];
+    return ({ fetchedPages, fetchedIds, total, pages });
   });
 }
 

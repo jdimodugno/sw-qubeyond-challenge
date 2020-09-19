@@ -12,10 +12,15 @@ class SpeciesClient implements IReaderClient<ISpecies> {
     this.apiClient = ApiClient.getInstance();
     
     this.read = this.read.bind(this);
+    this.readById = this.readById.bind(this);
   }
 
   read(page: number) : Promise<IApiResult<ISpecies>> {
-    return this.apiClient.get(`${this.resource}/?page=${page}`);
+    return this.apiClient.get(`${this.resource}/?page=${++page}`);
+  }
+
+  readById(id: string) : Promise<ISpecies> {
+    return this.apiClient.get(`${this.resource}/${id}`);
   }
 }
 

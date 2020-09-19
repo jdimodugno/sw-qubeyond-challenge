@@ -1,5 +1,3 @@
-import IFilm from './IFilm';
-import IPeople from './IPeople';
 import IStarWarsEntity from './IStarWarsEntity';
 
 interface ISpecies extends IStarWarsEntity {
@@ -13,8 +11,8 @@ interface ISpecies extends IStarWarsEntity {
   skin_colors: string;
   language: string;
   homeworld: string;
-  people: Array<IPeople>;
-  films: Array<IFilm>;
+  people: Array<string>;
+  films: Array<string>;
   url: string;
   created: string;
   edited: string;

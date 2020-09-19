@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { ThemeProvider } from '@material-ui/core';
 import Default from '../../theme/defaultTheme';
-import { HashRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import AppRoutes from '../../routes';
 import GlobalProvider from '../../context/GlobalContext';
+import { ThemeProvider } from 'styled-components';
 
 const App : FC = () => (
   <ThemeProvider theme={Default}>

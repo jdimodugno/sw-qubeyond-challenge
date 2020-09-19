@@ -1,68 +1,145 @@
-import React, { FC, useCallback, useState } from 'react';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@material-ui/core';
-import useStyles from './styles';
+import React, { FC, useCallback } from 'react';
+import styled from 'styled-components';
 import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
+import IListViewSchema from './IListViewSchema';
+
+const StyledTableSection = styled.div`
+  > div {
+    padding: .5em;
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
+
+const StyledTable = styled.table`
+  padding: 1em 1.5em 2em;
+  width: 100%;
+  border-collapse: collapse;
+
+  td {
+    padding: .5em;
+    font-size: .875em;
+    border: 1px solid ${({ theme }) => theme.colors.grayDark};;
+
+    &:not(:first-of-type) {
+      text-align: center;
+      vertical-align: middle;
+    }
+  }
+
+  tbody > tr > td {
+    &:not(.no-results) {
+      color: ${({ theme }) => theme.colors.primaryDark};
+      background-color: ${({ theme }) => theme.colors.grayLight};
+    }
+  }
+
+  tfoot > tr {
+    text-align: right;
+
+    > td > * {
+      &:not(:last-child) {
+        margin-right: .75em;
+      }
+    }
+  }
+`;
+
+const formatCellData = (type: string, data: string) : string => {
+  if (type === 'date') return new Date(data).toLocaleDateString();
+  return data;
+}
+
+const PAGE_LIMIT = 10;
 
 const ListView : FC<{
+  schema: IListViewSchema,
   loading: boolean,
-  list: Array<IStarWarsEntity>
+  list: Array<IStarWarsEntity>,
+  setPage: (page: number) => void,
+  page?: number,
+  count?: number
 }> = ({
-  loading
+  schema,
+  loading,
+  list,
+  setPage,
+  page = 0,
+  count = 0
 }) => {
-  const classes = useStyles();
-  const [offset, setOffset] = useState<number>(0);
-  const [limit, setLimit] = useState<number>(20);
-  
   const handleChangePage = useCallback(
-    (event: unknown, newOffset: number) => { 
-      setOffset(newOffset * limit);
-    }, [setOffset, limit],
+    (newOffset: number) => { 
+      console.log(newOffset);
+      setPage(newOffset);
+    }, [setPage]
   );
 
-  const handleChangeRowsPerPage = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setLimit(parseInt(event.target.value, 10));
-      setOffset(0);
-    }, [setLimit, setOffset]
-  );
+  const maxPage = Math.floor(count / PAGE_LIMIT);
+  const hasNext = page < maxPage;
+  const hasPrevious = page > 0;
+  const pageLower = (page * PAGE_LIMIT) + 1;
+  const pageUpper = (page + 1) * PAGE_LIMIT < count ? (page + 1) * PAGE_LIMIT : count;
 
   return (
-    <Paper className={classes.paper}>
-      {
-        loading ? (
-          <div>loading…</div>
-        ) : (
-          <>
-            <TableContainer>
-              <Table
-                className={classes.table}
-                size={'small'}
+    <StyledTableSection>
+      <StyledTable>
+        <thead>
+          <tr>
+            {
+              Object
+                .entries(schema)
+                .filter(([, v]) => v.visible)
+                .map(([k]) => (
+                  <td key={`header_cell_${k}`}>{k.toUpperCase()}</td>
+                ))
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {
+            loading ? (
+              <tr>
+                <td colSpan={Object.values(schema).filter(({ visible }) => visible).length}>
+                  Loading...
+                </td>
+              </tr>
+            ) : (
+              list.map((row) => (
+                <tr key={`row_id_${row.id}`}>
+                  {
+                    Object
+                      .entries(schema)
+                      .filter(([, v]) => v.visible)
+                      .map(([k, v]) => (
+                        <td key={`body_cell_${k}`}>{formatCellData(v.type, row[k] as string)}</td>
+                      ))
+                  }
+                </tr>
+              ))
+            )
+          }
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colSpan={Object.values(schema).filter(({ visible }) => visible).length}>
+              <button 
+                disabled={!hasPrevious}
+                onClick={() => handleChangePage(--page)}
               >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>123</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  <TableRow>
-                    <TableCell>456</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 20]}
-              component="div"
-              count={0}
-              rowsPerPage={20}
-              page={0}
-              onChangePage={handleChangePage}
-              onChangeRowsPerPage={handleChangeRowsPerPage}
-            />
-          </>
-        )
-      }
-    </Paper>
+                &laquo;
+              </button>
+              <span>{pageLower}-{pageUpper} of {count}</span>
+              <button
+                disabled={!hasNext}
+                onClick={() => handleChangePage(++page)}
+              >
+                &raquo;
+              </button>
+            </td>
+          </tr>
+        </tfoot>
+      </StyledTable>
+    </StyledTableSection>
   )
 }
 

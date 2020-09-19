@@ -12,10 +12,15 @@ class PlanetsClient implements IReaderClient<IPlanet> {
     this.apiClient = ApiClient.getInstance();
     
     this.read = this.read.bind(this);
+    this.readById = this.readById.bind(this);
   }
 
   read(page: number) : Promise<IApiResult<IPlanet>> {
-    return this.apiClient.get(`${this.resource}/?page=${page}`);
+    return this.apiClient.get(`${this.resource}/?page=${++page}`);
+  }
+
+  readById(id: string) : Promise<IPlanet> {
+    return this.apiClient.get(`${this.resource}/${id}`);
   }
 }
 

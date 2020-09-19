@@ -1,21 +1,17 @@
-import { createMuiTheme } from '@material-ui/core';
-import grey from '@material-ui/core/colors/grey'
-import yellow from '@material-ui/core/colors/yellow'
+const theme = {
+  colors: {
+    primaryLight: '#868498',
+    primary: '#0C0D31',
+    primaryDark: '#06072B',
+    secondaryLight: '#E0D8B2',
+    secondary: '#C0B18C',
+    secondaryDark: '#6A5946',
+    grayLight: '#E7EDED',
+    gray: '#656B70',
+    grayDark: '#26292E',
+    white: '#FAFFFF',
+    black: '#000107',
+  }
+}
 
-const Default = createMuiTheme({
-  palette: {
-    primary: {
-      main: yellow['A200'],
-      dark: yellow['A400']
-    },
-    secondary: {
-      main: grey['900'],
-    },
-    background: {
-      default: grey['700'],
-      paper: grey['900']
-    }
-  },
-});
-
-export default Default;
+export default theme;

@@ -1,20 +1,30 @@
 import React, { FC } from 'react';
-import { Box, Container } from '@material-ui/core';
+import styled from 'styled-components';
 import Navbar from '../../components/Navbar';
-import useStyles from './styles';
+
+const StyledLayout = styled.div`
+
+`;
+
+const Container = styled.div`
+  max-width: 1080px;
+  margin: 0 auto;
+
+  > div {
+    margin-top: 1em;
+  }
+`;
 
 const MainLayout : FC = ({ children }) => {
-  const classes = useStyles();
+
 
   return (
-    <Box>
+    <StyledLayout>
       <Navbar />
-      <Container className={classes.container}>
-        <Box>
-          { children }
-        </Box>
+      <Container>
+        { children }
       </Container>
-    </Box>
+    </StyledLayout>
   );
 }
 

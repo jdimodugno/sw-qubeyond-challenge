@@ -1,8 +1,4 @@
-import IPeople from './IPeople';
-import ISpecies from './ISpecies';
-import IStarship from './IStarship';
 import IStarWarsEntity from './IStarWarsEntity';
-import IVehicle from './IVehicle';
 
 interface IFilm extends IStarWarsEntity {
   title: string;
@@ -10,12 +6,12 @@ interface IFilm extends IStarWarsEntity {
   opening_crawl: string;
   director: string;
   producer: string;
-  release_date: Date;
-  species: Array<ISpecies>;
-  starships: Array<IStarship>;
-  vehicles: Array<IVehicle>;
-  characters: Array<IPeople>;
-  planets: Array<IPeople>;
+  release_date: string;
+  species: Array<string>;
+  starships: Array<string>;
+  vehicles: Array<string>;
+  characters: Array<string>;
+  planets: Array<string>;
   url: string;
   created: string;
   edited: string;

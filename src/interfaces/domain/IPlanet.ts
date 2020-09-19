@@ -1,5 +1,4 @@
 import IFilm from './IFilm';
-import IPeople from './IPeople';
 import IStarWarsEntity from './IStarWarsEntity';
 
 interface IPlanet extends IStarWarsEntity {
@@ -12,8 +11,8 @@ interface IPlanet extends IStarWarsEntity {
   climate: string;
   terrain: string;
   surface_water: string;
-  residents: Array<IPeople>;
-  films: Array<IFilm>;
+  residents: Array<string>;
+  films: Array<string>;
   url: string;
   created: string;
   edited: string;

@@ -1,8 +1,5 @@
 import IFilm from './IFilm';
-import ISpecies from './ISpecies';
-import IStarship from './IStarship';
 import IStarWarsEntity from './IStarWarsEntity';
-import IVehicle from './IVehicle';
 
 interface IPeople extends IStarWarsEntity {
   name: string;
@@ -14,10 +11,10 @@ interface IPeople extends IStarWarsEntity {
   mass: string;
   skin_color: string;
   homeworld: string;
-  films: Array<IFilm>;
-  species: Array<ISpecies>;
-  starships: Array<IStarship>;
-  vehicles: Array<IVehicle>;
+  films: Array<string>;
+  species: Array<string>;
+  starships: Array<string>;
+  vehicles: Array<string>;
   url: string;
   created: string;
   edited: string;

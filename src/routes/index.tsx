@@ -8,7 +8,7 @@ import StarshipsRoutes from '../modules/starships/routes';
 import VehicleRoutes from '../modules/vehicles/routes';
 import RouteWrapper from './RouteWrapper';
 
-const moduleRoutes : Array<IRoute> = [
+export const moduleRoutes : Array<IRoute> = [
   ...FilmsRoutes,
   ...PeopleRoutes,
   ...PlanetsRoutes,

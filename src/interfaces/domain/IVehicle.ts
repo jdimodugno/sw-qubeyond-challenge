@@ -14,8 +14,8 @@ interface IVehicle extends IStarWarsEntity {
   max_atmosphering_speed: string;
   cargo_capacity: string;
   consumables: string;
-  films: Array<IFilm>;
-  pilots: Array<IPeople>;
+  films: Array<string>;
+  pilots: Array<string>;
   url: string;
   created: string;
   edited: string;
