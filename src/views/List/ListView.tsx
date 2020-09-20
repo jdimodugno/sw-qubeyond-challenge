@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
+import DataHelper from '../../services/dataHelper';
 import IListViewSchema from './IListViewSchema';
 
 const StyledTableSection = styled.div`
@@ -45,12 +46,16 @@ const StyledTable = styled.table`
   }
 `;
 
+const StyledHeaderCell = styled.td`
+  cursor: pointer;
+`;
+
 const formatCellData = (type: string, data: string) : string => {
   if (type === 'date') return new Date(data).toLocaleDateString();
   return data;
 }
 
-const PAGE_LIMIT = 10;
+const PAGE_LIMIT = DataHelper.PAGE_LIMIT;
 
 const ListView : FC<{
   schema: IListViewSchema,
@@ -58,15 +63,27 @@ const ListView : FC<{
   list: Array<IStarWarsEntity>,
   setPage: (page: number) => void,
   page?: number,
-  count?: number
+  count?: number,
+  toggleOrder?: () => void,
+  setSortingField?: (field: string) => void,
 }> = ({
   schema,
   loading,
   list,
   setPage,
   page = 0,
-  count = 0
+  count = 0,
+  toggleOrder = () => {},
+  setSortingField = () => {}
 }) => {
+  const handleSort = useCallback(
+    (sortingKey: string) => {
+      setSortingField(sortingKey);
+      toggleOrder();
+      setPage(0);
+    }, [toggleOrder, setSortingField, setPage]
+  );
+
   const handleChangePage = useCallback(
     (newOffset: number) => { 
       console.log(newOffset);
@@ -90,7 +107,12 @@ const ListView : FC<{
                 .entries(schema)
                 .filter(([, v]) => v.visible)
                 .map(([k]) => (
-                  <td key={`header_cell_${k}`}>{k.toUpperCase()}</td>
+                  <StyledHeaderCell
+                    key={`header_cell_${k}`}
+                    onClick={() => handleSort(k)}
+                  >
+                    {k.toUpperCase()}
+                  </StyledHeaderCell>
                 ))
             }
           </tr>

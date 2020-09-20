@@ -1,28 +1,10 @@
 import React, { FC, useCallback, useState } from 'react';
-import IEntityPageMapping from '../interfaces/core/IEntityPageMapping';
 import IResultPages from '../interfaces/core/IResultPages';
-import IFilm from '../interfaces/domain/IFilm';
-import IPeople from '../interfaces/domain/IPeople';
-import IPlanet from '../interfaces/domain/IPlanet';
-import ISpecies from '../interfaces/domain/ISpecies';
-import IStarship from '../interfaces/domain/IStarship';
 import IStarWarsEntity from '../interfaces/domain/IStarWarsEntity';
-import IVehicle from '../interfaces/domain/IVehicle';
 import { getIdFromUrl } from '../utils/urlHelpers';
 
 interface IContext {
-  films: IResultPages<IFilm>|undefined;
-  updateFilms: (data: Array<IFilm>, page: number, total: number) => void;
-  people: IResultPages<IPeople>|undefined;
-  updatePeople: (data: Array<IPeople>, page: number, total: number) => void;
-  planets: IResultPages<IPlanet>|undefined;
-  updatePlanets: (data: Array<IPlanet>, page: number, total: number) => void;
-  species: IResultPages<ISpecies>|undefined;
-  updateSpecies: (data: Array<ISpecies>, page: number, total: number) => void;
-  starships: IResultPages<IStarship>|undefined;
-  updateStarships: (data: Array<IStarship>, page: number, total: number) => void;
-  vehicles: IResultPages<IVehicle>|undefined;
-  updateVehicles: (data: Array<IVehicle>, page: number, total: number) => void;
+  [x: string]: IResultPages<IStarWarsEntity>|undefined|((data: Array<IStarWarsEntity>, page: number, total: number) => void);
 }
 
 export const GlobalContext = React.createContext<IContext>({
@@ -40,66 +22,65 @@ export const GlobalContext = React.createContext<IContext>({
   updateVehicles: () => {},
 });
 
-function updateSet<T>(
+function updateSet<T extends IStarWarsEntity>(
   data: Array<T>,
   page: number,
   total: number,
-  setter: React.Dispatch<React.SetStateAction<IResultPages<T>|undefined>>
+  setter: React.Dispatch<React.SetStateAction<IResultPages<T>|undefined>>,
 ) : void {
   setter((prev: IResultPages<T> | undefined) => {
-    const fetchedIds : IEntityPageMapping = prev?.fetchedIds || {};
     const dataWithIds = data.map((entry) => {
       const id = getIdFromUrl((entry as unknown as IStarWarsEntity).url);
-      fetchedIds[id] = page;
       return ({ ...entry, id });
     });
     const fetchedPages = prev ? [...prev.fetchedPages, page] : [page];
     const pages = prev ? [...prev.pages, dataWithIds] : [dataWithIds];
-    return ({ fetchedPages, fetchedIds, total, pages });
+    
+    return ({ fetchedPages, fetchedIds: {}, total, pages });
   });
 }
 
 const GlobalProvider : FC = ({ children }) => {
-  const [films, setFilms] = useState<IResultPages<IFilm>|undefined>();
-  const [people, setPeople] = useState<IResultPages<IPeople>|undefined>();
-  const [planets, setPlanets] = useState<IResultPages<IPlanet>|undefined>();
-  const [species, setSpecies] = useState<IResultPages<ISpecies>|undefined>();
-  const [starships, setStarships] = useState<IResultPages<IStarship>|undefined>();
-  const [vehicles, setVehicles] = useState<IResultPages<IVehicle>|undefined>();
+  const [films, setFilms] = useState<IResultPages<IStarWarsEntity>|undefined>();
+  const [people, setPeople] = useState<IResultPages<IStarWarsEntity>|undefined>();
+  const [planets, setPlanets] = useState<IResultPages<IStarWarsEntity>|undefined>();
+  const [species, setSpecies] = useState<IResultPages<IStarWarsEntity>|undefined>();
+  const [starships, setStarships] = useState<IResultPages<IStarWarsEntity>|undefined>();
+  const [vehicles, setVehicles] = useState<IResultPages<IStarWarsEntity>|undefined>();
 
   const updateFilms = useCallback(
-    (data: Array<IFilm>, page: number, total: number) => {
-      updateSet<IFilm>(data, page, total, setFilms);
+    (data: Array<IStarWarsEntity>, page: number, total: number) => {
+      updateSet<IStarWarsEntity>(data, page, total, setFilms);
     }, [setFilms],
   );
 
   const updatePeople = useCallback(
-    (data: Array<IPeople>, page: number, total: number) => {
-      updateSet<IPeople>(data, page, total, setPeople);
+    (data: Array<IStarWarsEntity>, page: number, total: number) => {
+      updateSet<IStarWarsEntity>(data, page, total, setPeople);
     }, [setPeople],
   );
 
   const updatePlanets = useCallback(
-    (data: Array<IPlanet>, page: number, total: number) => {
-      updateSet<IPlanet>(data, page, total, setPlanets);
+    (data: Array<IStarWarsEntity>, page: number, total: number) => {
+      updateSet<IStarWarsEntity>(data, page, total, setPlanets);
     }, [setPlanets],
   );
 
   const updateSpecies = useCallback(
-    (data: Array<ISpecies>, page: number, total: number) => {
-      updateSet<ISpecies>(data, page, total, setSpecies);
+    (data: Array<IStarWarsEntity>, page: number, total: number) => {
+      updateSet<IStarWarsEntity>(data, page, total, setSpecies);
     }, [setSpecies],
   );
 
   const updateStarships = useCallback(
-    (data: Array<IStarship>, page: number, total: number) => {
-      updateSet<IStarship>(data, page, total, setStarships);
+    (data: Array<IStarWarsEntity>, page: number, total: number) => {
+      updateSet<IStarWarsEntity>(data, page, total, setStarships);
     }, [setStarships],
   );
 
   const updateVehicles = useCallback(
-    (data: Array<IVehicle>, page: number, total: number) => {
-      updateSet<IVehicle>(data, page, total, setVehicles);
+    (data: Array<IStarWarsEntity>, page: number, total: number) => {
+      updateSet<IStarWarsEntity>(data, page, total, setVehicles);
     }, [setVehicles],
   );
   

@@ -13,22 +13,22 @@ const FilmDetail : FC = () => {
   const [entity, setEntity] = useState<IFilm>();
 
   useEffect(() => {
-    if (id) {
-      setLoading(true);
-      const page = films?.fetchedIds[id] || 0;
-      if (page) {
-        setEntity(films?.pages[page].find(entry => entry.id === id));
-        setLoading(false);
-      }
-      else {
-        const client = new FilmsClient();
-        client.readById(id)
-          .then((data) => {
-            setEntity(data);
-            setLoading(false);
-          });
-      }
-    }
+    // if (id) {
+    //   setLoading(true);
+    //   const page = films?.fetchedIds[id] || 0;
+    //   if (page) {
+    //     setEntity(films?.pages[page].find(entry => entry.id === id));
+    //     setLoading(false);
+    //   }
+    //   else {
+    //     const client = new FilmsClient();
+    //     client.readById(id)
+    //       .then((data) => {
+    //         setEntity(data);
+    //         setLoading(false);
+    //       });
+    //   }
+    // }
   }, [films, id, setLoading, setEntity]);
 
   return loading ? (
