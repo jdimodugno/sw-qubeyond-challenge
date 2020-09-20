@@ -1,4 +1,4 @@
-import IListViewSchema from "../views/List/IListViewSchema";
+import IListViewSchema from '../views/List/IListViewSchema';
 
 export const ListSchema : IListViewSchema = {
   id: {

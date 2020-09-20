@@ -1,4 +1,4 @@
-import IListField from "./IListField";
+import IListField from './IListField';
 
 interface IListViewSchema {
   [x: string]: IListField;

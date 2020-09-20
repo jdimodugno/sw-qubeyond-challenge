@@ -1,12 +1,8 @@
-import IEntityPageMapping from "../interfaces/core/IEntityPageMapping";
-import IResultPages from "../interfaces/core/IResultPages";
-import IStarWarsEntity from "../interfaces/domain/IStarWarsEntity";
-import { chunk } from "../utils/arrayHelpers";
+import IEntityPageMapping from '../interfaces/core/IEntityPageMapping';
+import IResultPages from '../interfaces/core/IResultPages';
+import IStarWarsEntity from '../interfaces/domain/IStarWarsEntity';
+import { chunk } from '../utils/arrayHelpers';
 
-/**
- * @class DataHelper
- * It provides data related functions.
- */
 export default class DataHelper { 
   public static readonly PAGE_LIMIT : number = 10;
 
@@ -32,15 +28,4 @@ export default class DataHelper {
     
     return ({ fetchedPages, fetchedIds, total, pages: sortedPaginatedResults });
   }
-    
-
-    // return data
-    //   .sort((a, b) => {
-    //     if (!orderField) return 1;
-    //     const left = orderByFieldAsc ? 1 : -1;
-    //     const right = -1 * left;
-    //     return a[orderField] > b[orderField] ? left : right;
-    //   });
-
-    // return ({ fetchedPages, fetchedIds, total, pages });
 }

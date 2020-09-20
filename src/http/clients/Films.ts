@@ -1,7 +1,7 @@
-import IApiResult from "../../interfaces/core/IApiResult";
-import IReaderClient from "../../interfaces/core/IReaderClient";
-import IFilm from "../../interfaces/domain/IFilm";
-import { ApiClient } from "../ApiClient";
+import IApiResult from '../../interfaces/core/IApiResult';
+import IReaderClient from '../../interfaces/core/IReaderClient';
+import IFilm from '../../interfaces/domain/IFilm';
+import { ApiClient } from '../ApiClient';
 
 class FilmsClient implements IReaderClient<IFilm> {
   apiClient: ApiClient;

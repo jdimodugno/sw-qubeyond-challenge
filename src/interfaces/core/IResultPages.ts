@@ -1,4 +1,4 @@
-import IEntityPageMapping from "./IEntityPageMapping";
+import IEntityPageMapping from './IEntityPageMapping';
 
 interface IResultPages<T> {
   total: number;
