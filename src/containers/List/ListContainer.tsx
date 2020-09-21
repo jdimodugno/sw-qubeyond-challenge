@@ -18,7 +18,7 @@ const ListContainer : FC<IListContainerProps> = ({
   const [page, setPage] = useState<number>(0);
   const [results, setResults] = useState<IResultPages<IStarWarsEntity>>();
   const [loading, setLoading] = useState<boolean>(true)
-  const [sortingField, setSortingField] = useState<string>('name');
+  const [sortingField, setSortingField] = useState<string>(schema.defaultSort);
   const [sortByFieldAsc, setSortByFieldAsc] = useState<boolean>(true);
   const history = useHistory();
   
@@ -65,7 +65,7 @@ const ListContainer : FC<IListContainerProps> = ({
       loading={loading}
       setPage={setPage}
       count={(collection as IResultPages<IStarWarsEntity>)?.total || 0}
-      schema={schema}
+      schema={schema.fields}
       handleItemNavigation={handleItemNavigation}
     />
   );

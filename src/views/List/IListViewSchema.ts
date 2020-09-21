@@ -1,5 +1,8 @@
+import IListViewItemSchema from "./IListViewItemSchema";
+
 interface IListViewSchema {
-  [x: string]: boolean;
+  fields: IListViewItemSchema;
+  defaultSort: string;
 }
 
 export default IListViewSchema;

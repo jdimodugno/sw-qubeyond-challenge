@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
 import DataHelper from '../../services/dataHelper';
 import { formatData } from '../../utils/formatterHelper';
-import IListViewSchema from './IListViewSchema';
 import { useTranslation } from 'react-i18next';
 import Loading from '../../components/Loading';
+import IListViewItemSchema from './IListViewItemSchema';
 
 const StyledListView = styled.div`
   padding: 1em;
@@ -57,7 +57,7 @@ const StyledHeaderCell = styled.td`
 const PAGE_LIMIT = DataHelper.PAGE_LIMIT;
 
 const ListView : FC<{
-  schema: IListViewSchema,
+  schema: IListViewItemSchema,
   loading: boolean,
   list: Array<IStarWarsEntity>,
   setPage: (page: number) => void,
