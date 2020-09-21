@@ -1,5 +1,3 @@
-import IFilm from './IFilm';
-import IPeople from './IPeople';
 import IStarWarsEntity from './IStarWarsEntity';
 
 interface IVehicle extends IStarWarsEntity {

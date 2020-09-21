@@ -4,6 +4,8 @@ import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
 import DataHelper from '../../services/dataHelper';
 import { formatData } from '../../utils/formatterHelper';
 import IListViewSchema from './IListViewSchema';
+import { useTranslation } from 'react-i18next';
+import Loading from '../../components/Loading';
 
 const StyledListView = styled.div`
   padding: 1em;
@@ -75,6 +77,8 @@ const ListView : FC<{
   setSortingField = () => {},
   handleItemNavigation = () => {},
 }) => {
+  const { t } = useTranslation();
+
   const handleSort = useCallback(
     (sortingKey: string) => {
       setSortingField(sortingKey);
@@ -105,7 +109,7 @@ const ListView : FC<{
                     key={`header_cell_${k}`}
                     onClick={() => handleSort(k)}
                   >
-                    {k.toUpperCase()}
+                    {t(k)}
                   </StyledHeaderCell>
                 ))
             }
@@ -116,7 +120,7 @@ const ListView : FC<{
             loading ? (
               <tr>
                 <td colSpan={Object.values(schema).filter((v) => !!v).length}>
-                  Loading...
+                  <Loading />
                 </td>
               </tr>
             ) : (

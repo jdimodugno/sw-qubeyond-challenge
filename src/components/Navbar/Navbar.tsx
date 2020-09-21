@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const StyledHeader = styled.header`
   background-color: ${({ theme }) => theme.colors.primary};
-  box-shadow: 0px 8px 8px ${({ theme }) => theme.colors.gray};
+  box-shadow: 0px 4px 8px ${({ theme }) => theme.colors.gray};
   padding: .75em;
 
   > nav {
@@ -51,5 +51,4 @@ const Navbar : FC = () => (
     </nav>
   </StyledHeader>
 );
-
 export default Navbar;

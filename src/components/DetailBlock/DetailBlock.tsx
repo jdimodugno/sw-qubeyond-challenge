@@ -3,6 +3,7 @@ import { mapEndpointFromUrl } from '../../utils/urlHelpers';
 import { Link } from 'react-router-dom';
 import { formatData } from '../../utils/formatterHelper';
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
 const StyledDetailBlock = styled.div`
   margin-bottom:.5em;
@@ -32,13 +33,15 @@ const DetailBlock : FC<IDetailBlock> = ({
   fieldDescription,
   fieldValue,
 }) => {
+  const { t } = useTranslation();
+  
   const renderField = (
     fieldDescription: string,
     fieldValue: string | number | Array<string>
   ) : JSX.Element => {
     if (fieldValue instanceof Array) return (
       <>
-        <span>{fieldDescription}:&nbsp;</span>
+        <span>{t(fieldDescription)}:&nbsp;</span>
         <ul>
           { 
             fieldValue.map((v) => (
@@ -52,7 +55,7 @@ const DetailBlock : FC<IDetailBlock> = ({
     )
     return (
       <>
-        <span>{fieldDescription}:&nbsp;</span>
+        <span>{t(fieldDescription)}:&nbsp;</span>
         <span>{formatData(fieldDescription, fieldValue as string)}</span>
       </>
     );

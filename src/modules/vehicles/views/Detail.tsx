@@ -3,10 +3,7 @@ import DetailContainer from '../../../containers/Detail/DetailContainer';
 import VehiclesClient from '../../../http/clients/Vehicles';
 
 const VehicleDetail : FC = () => (
-  <DetailContainer
-    client={new VehiclesClient()}
-    collectionName={'vehicles'}
-  />
+  <DetailContainer client={new VehiclesClient()} />
 );
 
 export default VehicleDetail;

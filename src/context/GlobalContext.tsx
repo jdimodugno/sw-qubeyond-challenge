@@ -35,8 +35,8 @@ function updateSet<T extends IStarWarsEntity>(
     });
     const fetchedPages = prev ? [...prev.fetchedPages, page] : [page];
     const pages = prev ? [...prev.pages, dataWithIds] : [dataWithIds];
-    
-    return ({ fetchedPages, fetchedIds: {}, total, pages });
+
+    return ({ fetchedPages, total, pages });
   });
 }
 

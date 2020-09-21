@@ -32,7 +32,6 @@ const ListContainer : FC<IListContainerProps> = ({
     }, [history]
   );
 
-
   const collection = ctx[collectionName];
   const updateCollection = ctx[updateCollectionSetterName];
 
