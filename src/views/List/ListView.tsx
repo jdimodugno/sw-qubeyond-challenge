@@ -2,14 +2,12 @@ import React, { FC, useCallback } from 'react';
 import styled from 'styled-components';
 import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
 import DataHelper from '../../services/dataHelper';
+import { formatData } from '../../utils/formatterHelper';
 import IListViewSchema from './IListViewSchema';
 
-const StyledTableSection = styled.div`
-  > div {
-    padding: .5em;
-    display: flex;
-    justify-content: flex-end;
-  }
+const StyledListView = styled.div`
+  padding: 1em;
+  margin: 0 1em 1em;
 `;
 
 const StyledTable = styled.table`
@@ -28,10 +26,14 @@ const StyledTable = styled.table`
     }
   }
 
-  tbody > tr > td {
-    &:not(.no-results) {
-      color: ${({ theme }) => theme.colors.primaryDark};
-      background-color: ${({ theme }) => theme.colors.grayLight};
+  tbody > tr {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.primaryDark};
+    background-color: ${({ theme }) => theme.colors.grayLight};
+
+    &:hover {
+      color: ${({ theme }) => theme.colors.grayLight};
+      background-color: ${({ theme }) => theme.colors.gray};
     }
   }
 
@@ -50,11 +52,6 @@ const StyledHeaderCell = styled.td`
   cursor: pointer;
 `;
 
-const formatCellData = (type: string, data: string) : string => {
-  if (type === 'date') return new Date(data).toLocaleDateString();
-  return data;
-}
-
 const PAGE_LIMIT = DataHelper.PAGE_LIMIT;
 
 const ListView : FC<{
@@ -66,6 +63,7 @@ const ListView : FC<{
   count?: number,
   toggleOrder?: () => void,
   setSortingField?: (field: string) => void,
+  handleItemNavigation?: (url: string) => void,
 }> = ({
   schema,
   loading,
@@ -74,7 +72,8 @@ const ListView : FC<{
   page = 0,
   count = 0,
   toggleOrder = () => {},
-  setSortingField = () => {}
+  setSortingField = () => {},
+  handleItemNavigation = () => {},
 }) => {
   const handleSort = useCallback(
     (sortingKey: string) => {
@@ -84,13 +83,8 @@ const ListView : FC<{
     }, [toggleOrder, setSortingField, setPage]
   );
 
-  const handleChangePage = useCallback(
-    (newOffset: number) => { 
-      console.log(newOffset);
-      setPage(newOffset);
-    }, [setPage]
-  );
-
+  const handleChangePage = useCallback( (newOffset: number) => { setPage(newOffset); }, [setPage]);
+  
   const maxPage = Math.floor(count / PAGE_LIMIT);
   const hasNext = page < maxPage;
   const hasPrevious = page > 0;
@@ -98,14 +92,14 @@ const ListView : FC<{
   const pageUpper = (page + 1) * PAGE_LIMIT < count ? (page + 1) * PAGE_LIMIT : count;
 
   return (
-    <StyledTableSection>
+    <StyledListView>
       <StyledTable>
         <thead>
           <tr>
             {
               Object
                 .entries(schema)
-                .filter(([, v]) => v.visible)
+                .filter(([, v]) => !!v)
                 .map(([k]) => (
                   <StyledHeaderCell
                     key={`header_cell_${k}`}
@@ -121,19 +115,22 @@ const ListView : FC<{
           {
             loading ? (
               <tr>
-                <td colSpan={Object.values(schema).filter(({ visible }) => visible).length}>
+                <td colSpan={Object.values(schema).filter((v) => !!v).length}>
                   Loading...
                 </td>
               </tr>
             ) : (
               list.map((row) => (
-                <tr key={`row_id_${row.id}`}>
+                <tr
+                  key={`row_id_${row.id}`}
+                  onClick={() => handleItemNavigation(row.url)}
+                >
                   {
                     Object
                       .entries(schema)
-                      .filter(([, v]) => v.visible)
-                      .map(([k, v]) => (
-                        <td key={`body_cell_${k}`}>{formatCellData(v.type, row[k] as string)}</td>
+                      .filter(([, v]) => !!v)
+                      .map(([k,]) => (
+                        <td key={`body_cell_${k}`}>{formatData(k, row[k] as string)}</td>
                       ))
                   }
                 </tr>
@@ -143,7 +140,7 @@ const ListView : FC<{
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={Object.values(schema).filter(({ visible }) => visible).length}>
+            <td colSpan={Object.values(schema).filter((v) => !!v).length}>
               <button 
                 disabled={!hasPrevious}
                 onClick={() => handleChangePage(--page)}
@@ -161,7 +158,7 @@ const ListView : FC<{
           </tr>
         </tfoot>
       </StyledTable>
-    </StyledTableSection>
+    </StyledListView>
   )
 }
 

@@ -13,13 +13,23 @@ const StyledHeader = styled.header`
     margin: 0 auto;
     display: flex;
     align-items: center;
-    color: ${({ theme }) => theme.colors.white};
+
+    a {
+      text-decoration: none;
+      color: ${({ theme }) => theme.colors.white};
+    }
 
     > div {
-      margin-left: 1em;
+      margin-left: 2em;
 
-      > a:not(:last-of-type) {
-        margin-right: .5em;
+      > a {
+        &:hover {
+          color: ${({ theme }) => theme.colors.secondary};
+          text-decoration: underline;
+        }
+        &:not(:last-of-type) {
+          margin-right: .5em;
+        }
       }
     }
   }
@@ -28,7 +38,7 @@ const StyledHeader = styled.header`
 const Navbar : FC = () => (
   <StyledHeader>
     <nav>
-      <div>Star Wars Challenge</div>
+      <Link to="/">Star Wars Challenge</Link>
       <div>
         {
           moduleRoutes

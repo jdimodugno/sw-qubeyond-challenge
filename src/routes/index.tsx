@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { Redirect, Route } from 'react-router-dom';
 import IRoute from '../interfaces/core/IRoute';
 import FilmsRoutes from '../modules/films/routes';
 import PeopleRoutes from '../modules/people/routes';
@@ -19,6 +20,12 @@ export const moduleRoutes : Array<IRoute> = [
 
 const AppRoutes : FC = () => (
   <>
+    <Route
+      exact
+      path="/"
+      render={() => ( <Redirect to="/films" /> )}
+    />
+    
     {
       moduleRoutes.map((routeProps: IRoute) => (
         <RouteWrapper {...routeProps} />

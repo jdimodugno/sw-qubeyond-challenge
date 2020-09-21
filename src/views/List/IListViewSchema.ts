@@ -1,7 +1,5 @@
-import IListField from './IListField';
-
 interface IListViewSchema {
-  [x: string]: IListField;
+  [x: string]: boolean;
 }
 
 export default IListViewSchema;

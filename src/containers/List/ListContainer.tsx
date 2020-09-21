@@ -1,8 +1,10 @@
 import React, { FC, useEffect, useState, useCallback, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalContext';
 import IResultPages from '../../interfaces/core/IResultPages';
 import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
 import DataHelper from '../../services/dataHelper';
+import { mapEndpointFromUrl } from '../../utils/urlHelpers';
 import ListView from '../../views/List/ListView';
 import IListContainerProps from './IListContainerProps';
 
@@ -18,10 +20,18 @@ const ListContainer : FC<IListContainerProps> = ({
   const [loading, setLoading] = useState<boolean>(true)
   const [sortingField, setSortingField] = useState<string>('name');
   const [sortByFieldAsc, setSortByFieldAsc] = useState<boolean>(true);
-
+  const history = useHistory();
+  
   const toggleOrder = useCallback(
     () => { setSortByFieldAsc(!sortByFieldAsc) }, [setSortByFieldAsc, sortByFieldAsc],
   );
+
+  const handleItemNavigation = useCallback(
+    (url: string) => { 
+      history.push(mapEndpointFromUrl(url));
+    }, [history]
+  );
+
 
   const collection = ctx[collectionName];
   const updateCollection = ctx[updateCollectionSetterName];
@@ -57,6 +67,7 @@ const ListContainer : FC<IListContainerProps> = ({
       setPage={setPage}
       count={(collection as IResultPages<IStarWarsEntity>)?.total || 0}
       schema={schema}
+      handleItemNavigation={handleItemNavigation}
     />
   );
 }

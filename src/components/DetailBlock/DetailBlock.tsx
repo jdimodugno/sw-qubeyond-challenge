@@ -1,6 +1,27 @@
 import React, { FC } from 'react';
 import { mapEndpointFromUrl } from '../../utils/urlHelpers';
 import { Link } from 'react-router-dom';
+import { formatData } from '../../utils/formatterHelper';
+import styled from 'styled-components';
+
+const StyledDetailBlock = styled.div`
+  margin-bottom:.5em;
+
+  > ul {
+    list-style-type: none;
+    padding: 0;
+    margin: .5em 0 0 0;
+  }
+
+  > span {
+    margin-bottom: .5em;
+  }
+
+  > ul > li {
+    padding-left: .5em;
+  }
+
+`;
 
 interface IDetailBlock {
   fieldDescription: string;
@@ -11,34 +32,37 @@ const DetailBlock : FC<IDetailBlock> = ({
   fieldDescription,
   fieldValue,
 }) => {
-
   const renderField = (
     fieldDescription: string,
-    fieldValue: number | string | Array<string>
+    fieldValue: string | number | Array<string>
   ) : JSX.Element => {
     if (fieldValue instanceof Array) return (
-      <ul>
+      <>
         <span>{fieldDescription}:&nbsp;</span>
-        { 
-          fieldValue.map((v) => (
-            <li>
-              <Link to={`${mapEndpointFromUrl(v)}`}>
-                {v}
-              </Link>
-            </li>
-          )
-        ) }
-      </ul>
+        <ul>
+          { 
+            fieldValue.map((v) => (
+              <li>
+                <Link to={`${mapEndpointFromUrl(v)}`}>{v}</Link>
+              </li>
+            )
+          ) }
+        </ul>
+      </>
     )
     return (
-      <div>
+      <>
         <span>{fieldDescription}:&nbsp;</span>
-        <span>{fieldValue}</span>
-      </div>
+        <span>{formatData(fieldDescription, fieldValue as string)}</span>
+      </>
     );
   }
 
-  return renderField(fieldDescription, fieldValue);
+  return (
+    <StyledDetailBlock>
+      { renderField(fieldDescription, fieldValue) }
+    </StyledDetailBlock>
+  );
 }
 
 export default DetailBlock;
