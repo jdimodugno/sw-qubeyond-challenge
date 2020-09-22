@@ -13,7 +13,7 @@ export default class DataHelper {
   ): IResultPages<T> {
     const { fetchedPages, total } = data;
     const sortedPaginatedResults = chunk(
-      data.results.sort((a, b) => {
+      [...data.results].sort((a, b) => {
         if (!orderField) return 1;
         const left = orderByFieldAsc ? 1 : -1;
         const right = -1 * left;
@@ -29,8 +29,14 @@ export default class DataHelper {
     id: number,
   ): T {
     const mid = Math.floor(data.length / 2);
-    if (parseInt(data[mid].id) === id || data.length === 1) return data[mid];
-    else if (parseInt(data[mid].id) > id) return DataHelper.BinarySearch(data.slice(0, mid), id);
+    console.log(mid);
+    console.log(data);
+    console.log('====');
+    // if (data[mid].id === id || data.length === 1) return data[mid];
+    if (data[mid].id === id || data.length === 1) return data[mid];
+    // else if (data[mid].id > id) return DataHelper.BinarySearch(data.slice(0, mid), id);
+    else if (data[mid].id > id) return DataHelper.BinarySearch(data.slice(0, mid), id);
+    // else return DataHelper.BinarySearch(data.slice(mid, data.length), id);
     else return DataHelper.BinarySearch(data.slice(mid, data.length), id);
   }
 }

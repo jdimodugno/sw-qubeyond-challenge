@@ -5,7 +5,6 @@ import DataHelper from '../../services/dataHelper';
 import { formatData } from '../../utils/formatterHelper';
 import { useTranslation } from 'react-i18next';
 import Loading from '../../components/Loading';
-import IListViewItemSchema from './IListViewItemSchema';
 
 const StyledListView = styled.div`
   padding: 1em;
@@ -57,7 +56,7 @@ const StyledHeaderCell = styled.td`
 const PAGE_LIMIT = DataHelper.PAGE_LIMIT;
 
 const ListView : FC<{
-  schema: IListViewItemSchema,
+  schema: Array<string>,
   loading: boolean,
   list: Array<IStarWarsEntity>,
   setPage: (page: number) => void,
@@ -101,17 +100,14 @@ const ListView : FC<{
         <thead>
           <tr>
             {
-              Object
-                .entries(schema)
-                .filter(([, v]) => !!v)
-                .map(([k]) => (
-                  <StyledHeaderCell
-                    key={`header_cell_${k}`}
-                    onClick={() => handleSort(k)}
-                  >
-                    {t(k)}
-                  </StyledHeaderCell>
-                ))
+              schema.map((k) => (
+                <StyledHeaderCell
+                  key={`header_cell_${k}`}
+                  onClick={() => handleSort(k)}
+                >
+                  {t(k)}
+                </StyledHeaderCell>
+              ))
             }
           </tr>
         </thead>
@@ -119,7 +115,7 @@ const ListView : FC<{
           {
             loading ? (
               <tr>
-                <td colSpan={Object.values(schema).filter((v) => !!v).length}>
+                <td colSpan={schema.length}>
                   <Loading />
                 </td>
               </tr>
@@ -130,10 +126,8 @@ const ListView : FC<{
                   onClick={() => handleItemNavigation(row.url)}
                 >
                   {
-                    Object
-                      .entries(schema)
-                      .filter(([, v]) => !!v)
-                      .map(([k,]) => (
+                    schema
+                      .map((k) => (
                         <td key={`body_cell_${k}`}>{formatData(k, row[k] as string)}</td>
                       ))
                   }

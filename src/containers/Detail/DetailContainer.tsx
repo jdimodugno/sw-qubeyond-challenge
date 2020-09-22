@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import Loading from '../../components/Loading';
 import { GlobalContext } from '../../context/GlobalContext';
 import IEntityData from '../../interfaces/core/IEntityPageData';
-import IEntity from '../../interfaces/domain/IEntity';
 import IStarWarsEntity from '../../interfaces/domain/IStarWarsEntity';
 import DataHelper from '../../services/dataHelper';
 import DetailView from '../../views/Detail/DetailView';
@@ -14,7 +13,7 @@ const DetailContainer : FC<IDetailContainerProps> = ({
   collectionName
 }) => {
   const ctx = useContext(GlobalContext);
-  const { id } = useParams<IEntity>();
+  const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState<boolean>(true)
   const [entity, setEntity] = useState<IStarWarsEntity>();
 
@@ -24,7 +23,7 @@ const DetailContainer : FC<IDetailContainerProps> = ({
   useEffect(() => {
     if (id) {
       setLoading(true);
-      if ((collection as IEntityData<IStarWarsEntity>)?.fetchedIds.includes(id)) {
+      if ((collection as IEntityData<IStarWarsEntity>)?.fetchedIds.includes(parseInt(id))) {
         setEntity(DataHelper.BinarySearch((collection as IEntityData<IStarWarsEntity>).results, parseInt(id)));
         setLoading(false);
       } else {
@@ -35,7 +34,7 @@ const DetailContainer : FC<IDetailContainerProps> = ({
           });
       }
     }
-  }, [id, setLoading, setEntity, client]);
+  }, [id, setLoading, setEntity, client, collection]);
   
   return loading ? (
     <Loading />

@@ -30,7 +30,7 @@ function updateSet<T extends IStarWarsEntity>(
 ) : void {
   setter((prev: IEntityPageData<T> | undefined) => {
     const dataWithIds = data.map((entry) => {
-      const id = getIdFromUrl(entry.url);
+      const id = parseInt(getIdFromUrl(entry.url));
       return ({ ...entry, id });
     });
     const ids = dataWithIds.map(entry => entry.id);
@@ -39,9 +39,13 @@ function updateSet<T extends IStarWarsEntity>(
     
     const results = prev ? [...prev.results, ...dataWithIds] : [...dataWithIds];
     
-    // sort in order to favor binary search 
-    results.sort((a, b) => a.id > b.id ? 1 : -1);
-    return ({ fetchedPages, fetchedIds, total, results });
+    return ({
+      fetchedPages,
+      fetchedIds,
+      total,
+      // sort in order to favor binary search 
+      results: results.sort((a, b) => a.id > b.id ? 1 : -1)
+    });
   });
 }
 

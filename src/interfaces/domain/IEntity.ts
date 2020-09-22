@@ -1,5 +1,5 @@
 interface IEntity {
-  id: string;
+  id: number;
 }
 
 export default IEntity;

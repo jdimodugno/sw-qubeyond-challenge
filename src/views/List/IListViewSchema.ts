@@ -1,7 +1,5 @@
-import IListViewItemSchema from "./IListViewItemSchema";
-
 interface IListViewSchema {
-  fields: IListViewItemSchema;
+  fields: Array<string>;
   defaultSort: string;
 }
 

@@ -1,7 +1,7 @@
 interface IEntityData<T> {
   total: number;
   fetchedPages: Array<number>;
-  fetchedIds: Array<string>;
+  fetchedIds: Array<number>;
   results: Array<T>;
 }
 
