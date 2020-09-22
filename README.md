@@ -1,4 +1,4 @@
-# drixit-challenge by Juan Di Modugno
+# SW QUBEYOND CHALLENGE by Juan Di Modugno
 
 This solution is realized in order to be compliant with the Code Challenge provided.
 
