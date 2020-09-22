@@ -3,7 +3,10 @@ import DetailContainer from '../../../containers/Detail/DetailContainer';
 import SpeciesClient from '../../../http/clients/Species';
 
 const SpeciesDetail : FC = () => (
-  <DetailContainer client={new SpeciesClient()} />
+  <DetailContainer
+    client={new SpeciesClient()}
+    collectionName='species'
+  />
 );
 
 export default SpeciesDetail;

@@ -45,7 +45,7 @@ const DetailBlock : FC<IDetailBlock> = ({
         <ul>
           { 
             fieldValue.map((v) => (
-              <li>
+              <li key={v}>
                 <Link to={`${mapEndpointFromUrl(v)}`}>{v}</Link>
               </li>
             )

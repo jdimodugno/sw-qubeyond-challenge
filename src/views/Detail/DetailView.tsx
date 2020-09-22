@@ -22,6 +22,7 @@ const DetailView : FC<{
           .entries(entity)
           .map(([description, value]) => (
             <DetailBlock
+              key={`detail_${description}`}
               fieldDescription={description}
               fieldValue={value}
             />
