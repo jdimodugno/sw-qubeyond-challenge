@@ -1,44 +1,46 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# drixit-challenge by Juan Di Modugno
 
-## Available Scripts
+This solution is realized in order to be compliant with the Code Challenge provided.
 
-In the project directory, you can run:
+The purpose of the following lines is to explain each component and feature of the solution.
 
-### `yarn start`
+## CLIENT
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Running the project
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+This project was created using React.js and Typescript by using Create React App.
 
-### `yarn test`
+[React.js documentation](https://reactjs.org/)
+[Typescript documentation](https://www.typescriptlang.org/)
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Prerequisites
 
-### `yarn build`
+##### ENV REACT_APP_API_URL
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Before you are able to start the client, you'll need to specify an environment variable REACT_APP_API_URL in order to communicate with the Api.
+In order to do that, you should create a file called '.env.development' at the root of the client folder and provide that info. Or you can just add "REACT_APP_API_URL=[path/to/api]" before the start command.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#### `yarn start`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Runs the app in the development mode using Nodemon in order to restart the server if it's necessary after made some file change. 
+By default, the app will be listening at [http://localhost:3000](http://localhost:3000).
 
-### `yarn eject`
+#### Initial Scenario
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+By default, you'll be redirected to the films list. [/films]
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### HIGHLIGHTS
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+* Once you've fetched any resource page, it will be stored in the Global Context in order to provide a clean and smooth experience. The data is sorted by Id in order to favor the detail populating process.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+* In the DataHelper class we made use of binary search in order to take advantage of our Id sorted list, and that saves us a request.
 
-## Learn More
+* If you navigate through a list [for ex: people (82 items)] you can go back and you will notice that the data is not being fetched from the api, it's provided by the context.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+* There are two generic views, ListContainer and DetailContainer, both of them receives props in order to access the context dinamically.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* The ListView receives a schema in order to dynamically generate the table. You should put entity valid fields in the "/src/domain/[entityName]" ListSchema.fields in order to make the data visible.
+
+* The DetailView is dynamically generate by iterating through the object properties.
+
+* The field names are being translated by using react-i18next.
