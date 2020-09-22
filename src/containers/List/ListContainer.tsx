@@ -33,7 +33,9 @@ const ListContainer : FC<IListContainerProps> = ({
     }, [history]
   );
 
+  // get the entity collection through a dynamic key
   const collection = ctx[collectionName];
+  // get the entity collection setter through a dynamic key
   const updateCollection = ctx[updateCollectionSetterName];
 
   useEffect(() => {

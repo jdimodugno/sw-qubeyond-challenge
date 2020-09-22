@@ -38,7 +38,8 @@ function updateSet<T extends IStarWarsEntity>(
     const fetchedIds = prev ? [...prev.fetchedIds, ...ids] : [...ids];
     
     const results = prev ? [...prev.results, ...dataWithIds] : [...dataWithIds];
-
+    
+    // sort in order to favor binary search 
     results.sort((a, b) => a.id > b.id ? 1 : -1);
     return ({ fetchedPages, fetchedIds, total, results });
   });

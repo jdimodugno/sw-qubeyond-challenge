@@ -18,6 +18,7 @@ const DetailContainer : FC<IDetailContainerProps> = ({
   const [loading, setLoading] = useState<boolean>(true)
   const [entity, setEntity] = useState<IStarWarsEntity>();
 
+  // get the entity collection through a dynamic key
   const collection = ctx[collectionName];
 
   useEffect(() => {
